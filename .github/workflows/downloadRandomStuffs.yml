@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  provide_random_gif:
+  provide_random_stuff:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3.0.2
