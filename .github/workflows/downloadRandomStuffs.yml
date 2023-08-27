@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: download random stuffs
+on:
+  schedule:
+    - cron: "0 0 * * *"
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  provide_random_gif:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3.0.2
+      with:
+        token: ${{ secrets.PUSH_TOKEN }}
+    - shell: bash
+      name: download bucketlist
+      env:
+        API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
+      run: | 
+       bucketlist=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/bucketlist')
+       sed -i "s/:item:/$(jq -r '.item' <<< ${bucketlist})/g" bucketlist.html
+       
+    - shell: bash
+      name: push everything to git
+      run: | 
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git add -A
+        git commit -m 'deployment'
+        git push origin main:gh-pages -f        
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2
+      with:
+        token: ${{ secrets.PUSH_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_days: 0
+        keep_minimum_runs: 0
