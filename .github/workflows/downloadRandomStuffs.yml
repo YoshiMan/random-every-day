@@ -21,56 +21,56 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        bucketlist_idea=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/bucketlist')
-       sed -i "s/:item:/$(jq -r '.item' <<< ${bucketlist_idea})/g" bucketlist.html
+       perl -i -pe "s/:item:/$(jq -r '.item' <<< ${bucketlist_idea})/g" bucketlist.html
     - shell: bash
       name: download chucknorris joke
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        chucknorris_joke=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/chucknorris')
-       sed -i "s/:joke:/$(jq -r '.joke' <<< ${chucknorris_joke})/g" chucknorris.html
+       perl -i -pe "s/:joke:/$(jq -r '.joke' <<< ${chucknorris_joke})/g" chucknorris.html
     - shell: bash
       name: download dad joke
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        dad_joke=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/dadjokes')
-       sed -i "s/:joke:/$(jq -r '.[0].joke' <<< ${dad_joke})/g" dadjokes.html
+       perl -i -pe "s/:joke:/$(jq -r '.[0].joke' <<< ${dad_joke})/g" dadjokes.html
     - shell: bash
       name: download fact
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        fact=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/facts')
-       sed -i "s/:fact:/$(jq -r '.[0].fact' <<< ${fact})/g" facts.html
+       perl -i -pe "s/:fact:/$(jq -r '.[0].fact' <<< ${fact})/g" facts.html
     - shell: bash
       name: download joke
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        joke=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/jokes')
-       sed -i "s/:joke:/$(jq -r '.[0].joke' <<< ${joke})/g" jokes.html
+       perl -i -pe "s/:joke:/$(jq -r '.[0].joke' <<< ${joke})/g" jokes.html
     - shell: bash
       name: download riddle
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        riddle=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/riddles')
-       sed -i -e "s/:question:/$(jq -r '.[0].question' <<< ${riddle})/g" -e "s/:answer:/$(jq -r '.[0].answer' <<< ${riddle})/g"   riddles.html
+       perl -i -pe -e "s/:question:/$(jq -r '.[0].question' <<< ${riddle})/g" -e "s/:answer:/$(jq -r '.[0].answer' <<< ${riddle})/g"   riddles.html
     - shell: bash
       name: download password
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        password=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/passwordgenerator?length=64')
-       sed -i "s/:password:/$(jq -r '.random_password' <<< ${password})/g" passwordgenerator.html
+       perl -i -pe "s/:password:/$(jq -r '.random_password' <<< ${password})/g" passwordgenerator.html
     - shell: bash
       name: download babyname
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        babyname=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/babynames?gender=neutral')
-       sed -i "s/:babyname:/$(jq -r '.[0]' <<< ${babyname})/g" babynames.html
+       perl -i -pe "s/:babyname:/$(jq -r '.[0]' <<< ${babyname})/g" babynames.html
     - shell: bash
       name: push everything to git
       run: | 
