@@ -71,6 +71,14 @@ jobs:
       run: | 
        babyname=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/babynames?gender=neutral')
        perl -i -pe "s/:babyname:/$(jq -r '.[0]' <<< ${babyname})/g" babynames.html
+
+    - shell: bash
+      name: download babyname
+      env:
+        API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
+      run: | 
+       randomImage=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/randomimage?category=food')
+       perl -i -pe "s/:base64image:/$(jq -r '.[0]' <<< ${randomImage})/g" randomImage.html
     - shell: bash
       name: push everything to git
       run: | 
