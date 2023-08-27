@@ -56,7 +56,8 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        riddle=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/riddles')
-       perl -i -pe -e "s/:question:/$(jq -r '.[0].question' <<< ${riddle})/g" -e "s/:answer:/$(jq -r '.[0].answer' <<< ${riddle})/g"   riddles.html
+       perl -i -pe "s/:question:/$(jq -r '.[0].question' <<< ${riddle})/g" riddles.html
+       perl -i -pe "s/:answer:/$(jq -r '.[0].answer' <<< ${riddle})/g" riddles.html
     - shell: bash
       name: download password
       env:
