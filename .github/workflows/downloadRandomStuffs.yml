@@ -97,6 +97,11 @@ jobs:
        excuse=$(curl -s 'https://excuser-three.vercel.app/v1/excuse')
        perl -i -pe "s@:excuse:@$(jq -r '.[0].excuse' <<< ${excuse})@g" excuse.html
     - shell: bash
+      name: download cat fact
+      run: | 
+       uselessfacts=$(curl -s 'https://uselessfacts.jsph.pl/api/v2/facts/random')
+       perl -i -pe "s@:text:@$(jq -r '.text' <<< ${uselessfacts})@g" uselessfacts.html
+    - shell: bash
       name: push everything to git
       run: | 
         git config --global user.email "you@example.com"
