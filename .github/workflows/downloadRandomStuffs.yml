@@ -92,6 +92,11 @@ jobs:
        catfact=$(curl -s 'https://meowfacts.herokuapp.com/')
        perl -i -pe "s@:data:@$(jq -r '.data[0]' <<< ${catfact})@g" catfact.html
     - shell: bash
+      name: download excuse
+      run: | 
+       excuse=$(curl -s 'https://excuser-three.vercel.app/v1/excuse')
+       perl -i -pe "s@:excuse:@$(jq -r '.[0].excuse' <<< ${excuse})@g" excuse.html
+    - shell: bash
       name: push everything to git
       run: | 
         git config --global user.email "you@example.com"
