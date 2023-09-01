@@ -12,7 +12,7 @@ jobs:
   provide_random_stuff:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout|v3.0.2
+    - uses: actions/checkout@v3.0.2
       with:
         token: ${{ secrets.PUSH_TOKEN }}
     - shell: bash
@@ -104,13 +104,13 @@ jobs:
     - shell: bash
       name: push everything to git
       run: | 
-        git config --global user.email "you|example.com"
+        git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
         git add -A
         git commit -m 'deployment'
         git push origin main:gh-pages -f        
     - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs|v2
+      uses: Mattraks/delete-workflow-runs@v2
       with:
         token: ${{ secrets.PUSH_TOKEN }}
         repository: ${{ github.repository }}
