@@ -12,7 +12,7 @@ jobs:
   provide_random_stuff:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.0.2
+    - uses: actions/checkout|v3.0.2
       with:
         token: ${{ secrets.PUSH_TOKEN }}
     - shell: bash
@@ -21,96 +21,96 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        bucketlist_idea=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/bucketlist')
-       perl -i -pe "s@:item:@$(jq -r '.item' <<< ${bucketlist_idea})@g" bucketlist.html
+       perl -i -pe "s|:item:|$(jq -r '.item' <<< ${bucketlist_idea})|g" bucketlist.html
     - shell: bash
       name: download chucknorris joke
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        chucknorris_joke=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/chucknorris')
-       perl -i -pe "s@:joke:@$(jq -r '.joke' <<< ${chucknorris_joke})@g" chucknorris.html
+       perl -i -pe "s|:joke:|$(jq -r '.joke' <<< ${chucknorris_joke})|g" chucknorris.html
     - shell: bash
       name: download dad joke
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        dad_joke=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/dadjokes')
-       perl -i -pe "s@:joke:@$(jq -r '.[0].joke' <<< ${dad_joke})@g" dadjokes.html
+       perl -i -pe "s|:joke:|$(jq -r '.[0].joke' <<< ${dad_joke})|g" dadjokes.html
     - shell: bash
       name: download fact
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        fact=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/facts')
-       perl -i -pe "s@:fact:@$(jq -r '.[0].fact' <<< ${fact})@g" facts.html
+       perl -i -pe "s|:fact:|$(jq -r '.[0].fact' <<< ${fact})|g" facts.html
     - shell: bash
       name: download joke
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        joke=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/jokes')
-       perl -i -pe "s@:joke:@$(jq -r '.[0].joke' <<< ${joke})@g" jokes.html
+       perl -i -pe "s|:joke:|$(jq -r '.[0].joke' <<< ${joke})|g" jokes.html
     - shell: bash
       name: download riddle
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        riddle=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/riddles')
-       perl -i -pe "s@:question:@$(jq -r '.[0].question' <<< ${riddle})@g" riddles.html
-       perl -i -pe "s@:answer:@$(jq -r '.[0].answer' <<< ${riddle})@g" riddles.html
+       perl -i -pe "s|:question:|$(jq -r '.[0].question' <<< ${riddle})|g" riddles.html
+       perl -i -pe "s|:answer:|$(jq -r '.[0].answer' <<< ${riddle})|g" riddles.html
     - shell: bash
       name: download password
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        password=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/passwordgenerator?length=64')
-       sed -i "s@:password:@$(jq -r '.random_password' <<< ${password})@g" passwordgenerator.html
+       sed -i "s|:password:|$(jq -r '.random_password' <<< ${password})|g" passwordgenerator.html
     - shell: bash
       name: download babyname
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        babyname=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/babynames?gender=neutral')
-       perl -i -pe "s@:babyname:@$(jq -r '.[0]' <<< ${babyname})@g" babynames.html
+       perl -i -pe "s|:babyname:|$(jq -r '.[0]' <<< ${babyname})|g" babynames.html
     - shell: bash
       name: download randomImage
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        randomImage=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/randomimage?category=food')
-       perl -i -pe "s@:base64image:@${randomImage}@g" randomImage.html
+       perl -i -pe "s|:base64image:|${randomImage}|g" randomImage.html
     - shell: bash
       name: download lorem ipsum
       env:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        loremipsum=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/loremipsum')
-       perl -i -pe "s@:text:@$(jq -r '.text' <<< ${loremipsum})@g" loremipsum.html
+       perl -i -pe "s|:text:|$(jq -r '.text' <<< ${loremipsum})|g" loremipsum.html
     - shell: bash
       name: download cat fact
       run: | 
        catfact=$(curl -s 'https://meowfacts.herokuapp.com/')
-       perl -i -pe "s@:data:@$(jq -r '.data[0]' <<< ${catfact})@g" catfact.html
+       perl -i -pe "s|:data:|$(jq -r '.data[0]' <<< ${catfact})|g" catfact.html
     - shell: bash
       name: download excuse
       run: | 
        excuse=$(curl -s 'https://excuser-three.vercel.app/v1/excuse')
-       perl -i -pe "s@:excuse:@$(jq -r '.[0].excuse' <<< ${excuse})@g" excuse.html
+       perl -i -pe "s|:excuse:|$(jq -r '.[0].excuse' <<< ${excuse})|g" excuse.html
     - shell: bash
       name: download cat fact
       run: | 
        uselessfacts=$(curl -s 'https://uselessfacts.jsph.pl/api/v2/facts/random')
-       perl -i -pe "s@:text:@$(jq -r '.text' <<< ${uselessfacts})@g" uselessfacts.html
+       perl -i -pe "s|:text:|$(jq -r '.text' <<< ${uselessfacts})|g" uselessfacts.html
     - shell: bash
       name: push everything to git
       run: | 
-        git config --global user.email "you@example.com"
+        git config --global user.email "you|example.com"
         git config --global user.name "Your Name"
         git add -A
         git commit -m 'deployment'
         git push origin main:gh-pages -f        
     - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@v2
+      uses: Mattraks/delete-workflow-runs|v2
       with:
         token: ${{ secrets.PUSH_TOKEN }}
         repository: ${{ github.repository }}
