@@ -64,6 +64,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        password=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/passwordgenerator?length=64')
+       echo ${password}
        sed -i "s|:password:|$(jq -r '.random_password' <<< ${password})|g" passwordgenerator.html
     - shell: bash
       name: download babyname
