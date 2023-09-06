@@ -97,12 +97,6 @@ jobs:
        echo ${loremipsum}
        perl -i -pe "s|:text:|$(jq -r '.text' <<< ${loremipsum})|g" loremipsum.html
     - shell: bash
-      name: download cat fact
-      run: | 
-       catfact=$(curl -s 'https://meowfacts.herokuapp.com/')
-       echo ${catfact}
-       perl -i -pe "s|:data:|$(jq -r '.data[0]' <<< ${catfact})|g" catfact.html
-    - shell: bash
       name: download excuse
       run: | 
        excuse=$(curl -s 'https://excuser-three.vercel.app/v1/excuse')
