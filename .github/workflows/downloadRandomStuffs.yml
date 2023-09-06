@@ -21,6 +21,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        bucketlist_idea=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/bucketlist')
+       echo ${bucketlist_idea}
        perl -i -pe "s|:item:|$(jq -r '.item' <<< ${bucketlist_idea})|g" bucketlist.html
     - shell: bash
       name: download chucknorris joke
@@ -28,6 +29,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        chucknorris_joke=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/chucknorris')
+       echo ${chucknorris_joke}
        perl -i -pe "s|:joke:|$(jq -r '.joke' <<< ${chucknorris_joke})|g" chucknorris.html
     - shell: bash
       name: download dad joke
@@ -35,6 +37,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        dad_joke=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/dadjokes')
+       echo ${dad_joke}
        perl -i -pe "s|:joke:|$(jq -r '.[0].joke' <<< ${dad_joke})|g" dadjokes.html
     - shell: bash
       name: download fact
@@ -42,6 +45,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        fact=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/facts')
+       echo ${fact}
        perl -i -pe "s|:fact:|$(jq -r '.[0].fact' <<< ${fact})|g" facts.html
     - shell: bash
       name: download joke
@@ -49,6 +53,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        joke=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/jokes')
+       echo ${joke}
        perl -i -pe "s|:joke:|$(jq -r '.[0].joke' <<< ${joke})|g" jokes.html
     - shell: bash
       name: download riddle
@@ -56,6 +61,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        riddle=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/riddles')
+       echo ${riddle}
        perl -i -pe "s|:question:|$(jq -r '.[0].question' <<< ${riddle})|g" riddles.html
        perl -i -pe "s|:answer:|$(jq -r '.[0].answer' <<< ${riddle})|g" riddles.html
     - shell: bash
@@ -64,6 +70,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        password=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/passwordgenerator?length=64' | jq -r '.random_password')
+       echo ${password}
        sed -i "s|:password:|${password//&/\\&}|g" passwordgenerator.html
     - shell: bash
       name: download babyname
@@ -71,6 +78,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        babyname=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/babynames?gender=neutral')
+       echo ${babyname}
        perl -i -pe "s|:babyname:|$(jq -r '.[0]' <<< ${babyname})|g" babynames.html
     - shell: bash
       name: download randomImage
@@ -78,6 +86,7 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        randomImage=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/randomimage?category=food')
+       echo ${randomImage}
        perl -i -pe "s|:base64image:|${randomImage}|g" randomImage.html
     - shell: bash
       name: download lorem ipsum
@@ -85,21 +94,25 @@ jobs:
         API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
       run: | 
        loremipsum=$(curl -s -H "X-Api-Key: ${API_NINJAS_API_KEY}" 'https://api.api-ninjas.com/v1/loremipsum')
+       echo ${loremipsum}
        perl -i -pe "s|:text:|$(jq -r '.text' <<< ${loremipsum})|g" loremipsum.html
     - shell: bash
       name: download cat fact
       run: | 
        catfact=$(curl -s 'https://meowfacts.herokuapp.com/')
+       echo ${catfact}
        perl -i -pe "s|:data:|$(jq -r '.data[0]' <<< ${catfact})|g" catfact.html
     - shell: bash
       name: download excuse
       run: | 
        excuse=$(curl -s 'https://excuser-three.vercel.app/v1/excuse')
+       echo ${excuse}
        perl -i -pe "s|:excuse:|$(jq -r '.[0].excuse' <<< ${excuse})|g" excuse.html
     - shell: bash
-      name: download cat fact
+      name: download useless fact
       run: | 
        uselessfacts=$(curl -s 'https://uselessfacts.jsph.pl/api/v2/facts/random')
+       echo ${uselessfacts}
        perl -i -pe "s|:text:|$(jq -r '.text' <<< ${uselessfacts})|g" uselessfacts.html
     - shell: bash
       name: push everything to git
